@@ -38,6 +38,36 @@
 
 	map.addControl(controlSearch);
 
+	// Setting Icon
+	var list_icon = [
+		'', 
+		'/assets/icons/pinanyar.png',
+		'/assets/icons/tempat_makan.png',
+		'/assets/icons/atm.png',
+		'/assets/icons/spbu.png',
+		'/assets/icons/kedai.png',
+		'/assets/icons/pin_merah.png',
+		'/assets/icons/pin_merah.png',
+		'/assets/icons/pin_merah.png',
+		'/assets/icons/pin_merah.png',
+		'/assets/icons/pin_merah.png',
+		'/assets/icons/pin_merah.png',
+		'/assets/icons/pin_merah.png',
+		'/assets/icons/pin_merah.png',
+		'/assets/icons/hotel.png',
+		];
+
+	//---------------------------------------------
+
+	var LeafIcon = L.Icon.extend({
+		options: {
+			iconSize:     [32, 37],
+			iconAnchor:   [16, 37],
+			popupAnchor:  [1, -30]
+		}
+	});
+
+
 	// Menangkap variable $data dari Controller POI
 	var data_db = {{ Illuminate\Support\Js::from($data) }};
 
@@ -51,13 +81,15 @@
 			arr.push({
 				"lokasi" : [data_db[i].longitude, data_db[i].latitude],
 				"nama" : data_db[i].nama,
-				"jenis" : "marker"
+				"jenis" : "marker",
+				"kode" : data_db[i].jenis_id
 			});
 		}else if(data_db[i].objek == "polygon"){
 			arr.push({
 				"lokasi" : JSON.parse(data_db[i].koordinat_polygon),
 				"nama" : data_db[i].nama,
-				"jenis" : "polygon"
+				"jenis" : "polygon",
+				"kode" : data_db[i].jenis_id
 			});
 		}
 	}
@@ -70,7 +102,8 @@
 
 		if(arr[item].jenis == "marker"){
 			var	lokasi = arr[item].lokasi;
-			var obyek = new L.Marker(new L.latLng(lokasi), {title: nama}).bindPopup(
+			var kode = arr[item].kode;
+			var obyek = new L.Marker(new L.latLng(lokasi), {icon: new LeafIcon({iconUrl: list_icon[kode]}), title: nama}).bindPopup(
 				`<div class="card rounded-0" style="width: 15rem;">
 				<img src="/assets/foto.png" class="card-img-top" alt="...">
 				<div class="card-body">
