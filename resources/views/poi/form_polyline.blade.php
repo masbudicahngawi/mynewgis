@@ -9,22 +9,27 @@
 		<tr>
 			<th class="text-center">No</th>
 			<th class="text-center">Nama</th>
-			<th class="text-center">Koordinat Polygon</th>
+			<th class="text-center">Deskripsi</th>
 			<th class="text-center">Aksi</th>
 		</tr>
 
 		@foreach($data as $key => $value)
 
 		<tr>
-			<td>{{ $key+1 }}</td>
+			<td class="text-center">{{ $key+ $data->firstItem() }}</td>
 			<td>{{ $value->nama }}</td>
-			<td>{{ $value->koordinat_polygon }}</td>
-			<td><a href="{{ route('polyline.detail', $value->id) }}">Detail</a></td>
+			<td>{{ $value->deskripsi }}</td>
+			<td class="text-center"><a href="{{ route('polyline.detail', $value->id) }}">Detail</a></td>
 		</tr>
 
 		@endforeach
 
 	</table>
+
+	<div class="d-flex justify-content-center">
+		{{-- {!! $lagus->links() !!} --}}
+		{!! $data->withQueryString()->links('pagination::bootstrap-5') !!}
+	</div>
 </div>
 
 @endsection
