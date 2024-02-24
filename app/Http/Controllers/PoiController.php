@@ -38,9 +38,8 @@ class PoiController extends Controller
      */
     public function show(Poi $poi)
     {
-        $data = Poi::where('objek', 'marker')->get();
-
-        // dd($data);
+        $data = Poi::where('objek', '=', 'marker')->orWhere('objek', '=', 'polygon')->get();
+        // var_dump($data);
 
         return view('poi.show', ['data'=>$data]);
     }

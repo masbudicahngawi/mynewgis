@@ -29,6 +29,7 @@
 	var controlSearch = new L.Control.Search({
 		position:'topright',		
 		layer: klaster,
+		// propertyName: 'nama',
 		initial: false,
 		zoom: 17,
 		marker: false,
@@ -37,30 +38,64 @@
 
 	map.addControl(controlSearch);
 
+	// Menangkap variable $data dari Controller POI
 	var data_db = {{ Illuminate\Support\Js::from($data) }};
 
-		// alert("data db : " + data_db);
+	// alert("data db : " + data_db);
 
 	var arr = [];
 
 	for(i in data_db) {
+
 		if(data_db[i].objek == "marker"){
 			arr.push({
-				"titik" : [data_db[i].longitude, data_db[i].latitude],
+				"lokasi" : [data_db[i].longitude, data_db[i].latitude],
 				"nama" : data_db[i].nama,
 				"jenis" : "marker"
+			});
+		}else if(data_db[i].objek == "polygon"){
+			arr.push({
+				"lokasi" : JSON.parse(data_db[i].koordinat_polygon),
+				"nama" : data_db[i].nama,
+				"jenis" : "polygon"
 			});
 		}
 	}
 
-	for(item in arr){
-		if(arr[item].jenis == "marker"){
-			var	titik = arr[item].titik;
-			var	nama = arr[item].nama;
-			var marker = new L.Marker(new L.latLng(titik),{title: nama}).bindPopup(`<h5><strong>${nama}</strong></h5>`);
-		}
 
-		klaster.addLayer(marker);
+
+	for(item in arr){
+		var nama = arr[item].nama;
+		// alert(arr[item].nama + " -- " + arr[item].jenis + " : " + arr[item].lokasi);
+
+		if(arr[item].jenis == "marker"){
+			var	lokasi = arr[item].lokasi;
+			var obyek = new L.Marker(new L.latLng(lokasi), {title: nama}).bindPopup(
+				`<div class="card rounded-0" style="width: 15rem;">
+				<img src="/assets/foto.png" class="card-img-top" alt="...">
+				<div class="card-body">
+				<h5 class="card-title">${nama}</h5>
+				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+				<a href="#" class="btn btn-primary rounded-0">Tambah Foto</a>
+				</div>
+				</div>`);
+
+			klaster.addLayer(obyek);
+
+		}else if(arr[item].jenis == "polygon"){
+			var	lokasi = arr[item].lokasi;
+			var obyek = new L.Polygon(lokasi,{title: nama}).bindPopup(`<div class="card rounded-0" style="width: 15rem;">
+				<img src="/assets/foto.png" class="card-img-top" alt="...">
+				<div class="card-body">
+				<h5 class="card-title">${nama}</h5>
+				<p class="card-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+				<a href="#" class="btn btn-primary rounded-0">Tambah Foto</a>
+				</div>
+				</div>`);
+
+			klaster.addLayer(obyek);
+
+		}
 	}
 
 	map.addLayer(klaster);
