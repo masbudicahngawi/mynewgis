@@ -67,4 +67,16 @@ class PoiController extends Controller
     {
         //
     }
+
+    public function polyline(){
+        $qry = Poi::where('objek','=', 'polyline')->get();
+
+        return view('poi.form_polyline', ['data' => $qry]);
+    }
+
+    public function polyline_detail(Poi $poi, $id){
+        $qry = Poi::where('id', $id)->get();
+        // dump($qry);
+        return view('poi.detail_polyline', ['data' => $qry[0]]);
+    }
 }

@@ -16,3 +16,5 @@ use App\Http\Controllers\PoiController;
 
 Route::get('/', [PoiController::class, 'index']);
 Route::get('/poi/show', [PoiController::class, 'show']);
+Route::get('/poi/polyline', [PoiController::class, 'polyline']);
+Route::get('/poi/polyline/{id}', [PoiController::class, 'polyline_detail'])->name('polyline.detail');
