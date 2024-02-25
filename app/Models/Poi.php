@@ -10,6 +10,9 @@ class Poi extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['nama', 'deskripsi', 'objek', 'latitude',
+    'longitude', 'koordinat_polygon', 'jml_titik','jenis_id', ];
+
     public function jenispoi(){
         return $this->belongTo(JenisPoi::class);
     }

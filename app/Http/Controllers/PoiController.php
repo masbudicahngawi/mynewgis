@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Poi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Js;
+use Illuminate\Support\Facades\Validator;
 
 class PoiController extends Controller
 {
@@ -22,7 +23,7 @@ class PoiController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -30,7 +31,39 @@ class PoiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->mode == "mobile"){
+
+            // Dari menu Mobile
+            $validator = Validator::make($request->all(), [
+                'lo' => 'required',
+                'la' => 'required',
+                'keterangan' => 'required',
+            ]);
+
+            //check if validation fails
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+            // print_r($request->all());
+        
+            // Kirim ke DB [!!!Settingan Latitude dan Longitude-nya terbalik !!!!]
+            $poi = Poi::create([
+                'nama' => $request->keterangan,
+                'latitude' => $request->lo,
+                'longitude' => $request->la,
+                'jenis_id' => 1,
+                'deskripsi' => '',
+                'objek' => 'marker',
+            ]);
+
+            //return response
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Berhasil Disimpan!',
+            ]);
+        
+        }
     }
 
     /**
@@ -78,5 +111,9 @@ class PoiController extends Controller
         $qry = Poi::where('id', $id)->get();
         // dump($qry);
         return view('poi.detail_polyline', ['data' => $qry[0]]);
+    }
+
+    public function mobile(){
+        return view('mobile.index');
     }
 }
