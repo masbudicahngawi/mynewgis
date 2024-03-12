@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Poi;
+use App\Models\JenisPoi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Js;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,7 @@ class PoiController extends Controller
      */
     public function create()
     {
-        
+
     }
 
     /**
@@ -46,7 +47,7 @@ class PoiController extends Controller
             }
 
             // print_r($request->all());
-        
+
             // Kirim ke DB [!!!Settingan Latitude dan Longitude-nya terbalik !!!!]
             $poi = Poi::create([
                 'nama' => $request->keterangan,
@@ -62,7 +63,38 @@ class PoiController extends Controller
                 'success' => true,
                 'message' => 'Data Berhasil Disimpan!',
             ]);
-        
+
+        }else if($request->mode == "marker"){
+            // Dari menu Marker
+            $validator = Validator::make($request->all(), [
+                'nama' => 'required',
+                'jenis_id' => 'required',
+                'lat' => 'required',
+                'lng' => 'required',
+            ]);
+
+            //check if validation fails
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 422);
+            }
+
+            // print_r($request->all());
+
+            // Kirim ke DB [!!!Settingan Latitude dan Longitude-nya terbalik !!!!]
+            $poi = Poi::create([
+                'nama' => $request->nama,
+                'latitude' => $request->lng,
+                'longitude' => $request->lat,
+                'jenis_id' => $request->jenis_id,
+                'deskripsi' => $request->deskripsi,
+                'objek' => 'marker',
+            ]);
+
+            //return response
+            return response()->json([
+                'success' => true,
+                'message' => 'Data Berhasil Disimpan!',
+            ]);
         }
     }
 
@@ -115,5 +147,11 @@ class PoiController extends Controller
 
     public function mobile(){
         return view('mobile.index');
+    }
+
+    public function tambah(){
+        $jenis = JenisPoi::all();
+
+        return view('poi.tambah', ['jenis' => $jenis]);
     }
 }

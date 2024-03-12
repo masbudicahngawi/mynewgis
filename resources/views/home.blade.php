@@ -31,7 +31,8 @@
 				Disini kita bisa melihat, edit, dan nge-tag POI.
 				<div class="list-group">
 					<a class="list-group-item list-group-item-action" href="/poi/show">Show POI</a>
-					<a class="list-group-item list-group-item-action" href="">Edit POI</a>
+					<a class="list-group-item list-group-item-action" href="/poi/polyline">Show Route</a>
+					<a class="list-group-item list-group-item-action" href="/poi/tambah">Tambah POI</a>
 				</div>
 			</div>
 		</div>
