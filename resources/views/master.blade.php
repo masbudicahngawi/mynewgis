@@ -24,6 +24,7 @@
     <link href="/assets/leaflet_search/leaflet-search.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/leaflet_cluster/MarkerCluster.css" rel="stylesheet" type="text/css" />
     <link href="/assets/leaflet_cluster/MarkerCluster.Default.css" rel="stylesheet" type="text/css" />
+    <link href="/assets/toastr/toastr.min.css" rel="stylesheet" type="text/css" />
 
     @yield('gaya', '')
 
@@ -40,6 +41,7 @@
     <script src="/assets/leaflet_search/leaflet-search.min.js" type="text/javascript"></script>
     <script src="/assets/leaflet_cluster/leaflet.markercluster.js"></script>
     <script src="/assets/movingmarker/MovingMarker.js" type="text/javascript"></script>
+    <script src="/assets/toastr/toastr.min.js" type="text/javascript"></script>
 
     @yield('skrip')
 

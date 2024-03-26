@@ -122,9 +122,17 @@
                 },
                 success: function(hasil){
                     if (hasil.success == true) {
-                        alert(hasil.message);
+                        // alert(hasil.message);
+                        toastr.options = { "closeButton" : true,"progressBar" : true }
+                        toastr.success("Data berhasil disimpan.");
                     }else{
-                        alert("Error !");
+                        // alert("Error !");
+                        toastr.options =
+                        {
+                            "closeButton" : true,
+                            "progressBar" : true
+                        }
+                        toastr.error("Error !");
                     }
                 }
             });
