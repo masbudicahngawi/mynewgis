@@ -24,4 +24,5 @@ Route::get('/poi/tambah', [PoiController::class, 'tambah']);
 Route::get('/poi/polyline', [PoiController::class, 'polyline']);
 Route::get('/poi/polyline/{id}', [PoiController::class, 'polyline_detail'])->name('polyline.detail');
 
+Route::get('/multilayer', [PoiController::class, 'multilayer']);
 // Route::resource('pois', PoiController::class);

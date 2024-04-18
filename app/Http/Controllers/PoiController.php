@@ -154,4 +154,8 @@ class PoiController extends Controller
 
         return view('poi.tambah', ['jenis' => $jenis]);
     }
+
+    public function multilayer(){
+        return view('multilayer.index');
+    }
 }
