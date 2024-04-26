@@ -150,9 +150,10 @@ class PoiController extends Controller
     }
 
     public function tambah(){
+        $data_marker = Poi::where('objek', '=', 'marker')->get();
         $jenis = JenisPoi::all();
 
-        return view('poi.tambah', ['jenis' => $jenis]);
+        return view('poi.tambah', ['jenis' => $jenis, 'titik'=> $data_marker]);
     }
 
     public function multilayer(){

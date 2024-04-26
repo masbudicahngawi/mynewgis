@@ -4,7 +4,6 @@
     <div id="map"></div>
 @endsection
 
-
 @section('skrip')
     <script type="text/javascript">
         // center of the map

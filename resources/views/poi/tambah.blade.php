@@ -4,7 +4,6 @@
     <div id="map"></div>
 @endsection
 
-
 @section('skrip')
     <script type="text/javascript" defer>
         // center of the map
@@ -37,6 +36,36 @@
         });
 
         map.addControl(drawControl);
+
+        // Menangkap variable $titik (seluruh marker) dari Controller POI
+        var data_titik = {{ Illuminate\Support\Js::from($titik) }};
+
+        var arr = [];
+
+        for (i in data_titik) {
+
+            if (data_titik[i].objek == "marker") {
+                arr.push({
+                    "lokasi": [data_titik[i].longitude, data_titik[i].latitude],
+                    "nama": data_titik[i].nama,
+                    "deskripsi": data_titik[i].deskripsi,
+                    "jenis": "marker"
+                });
+            }
+        }
+
+        for (item in arr) {
+            var nama = arr[item].nama;
+
+            if (arr[item].jenis == "marker") {
+                var lokasi = arr[item].lokasi;
+
+                var obyek = new L.Marker((lokasi))
+                    .bindPopup(`<h5><strong>${nama}</strong></h5>`);
+
+                klaster.addLayer(obyek);
+            }
+        }
 
         // Menangkap variable $jenis dari Controller POI
         var data_jenis = {{ Illuminate\Support\Js::from($jenis) }};

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PoiController;
+use App\Http\Controllers\LoginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,15 +15,21 @@ use App\Http\Controllers\PoiController;
 |
 */
 
-Route::get('/', [PoiController::class, 'index']);
+Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('guest');
+Route::post('/proses-login', [LoginController::class, 'prosesLogin'])->name('proses-login');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+
+// Route::get('/', [PoiController::class, 'index']);
 Route::get('/mobile', [PoiController::class, 'mobile']);
 Route::post('/mobile', [PoiController::class, 'store'])->name('poi.store');
 
-Route::get('/poi/', [PoiController::class, 'show']);
-Route::get('/poi/show', [PoiController::class, 'show']);
-Route::get('/poi/tambah', [PoiController::class, 'tambah']);
-Route::get('/poi/polyline', [PoiController::class, 'polyline']);
-Route::get('/poi/polyline/{id}', [PoiController::class, 'polyline_detail'])->name('polyline.detail');
+Route::prefix('/poi')->group(function () {
+    Route::get('/', [PoiController::class, 'show'])->middleware('auth');
+    Route::get('/show', [PoiController::class, 'show'])->middleware('auth');
+    Route::get('/tambah', [PoiController::class, 'tambah'])->middleware('auth');
+    Route::get('/polyline', [PoiController::class, 'polyline'])->middleware('auth');
+    Route::get('/polyline/{id}', [PoiController::class, 'polyline_detail'])->name('polyline.detail')->middleware('auth');
+});
 
-Route::get('/multilayer', [PoiController::class, 'multilayer']);
+Route::get('/multilayer', [PoiController::class, 'multilayer'])->middleware('auth');;
 // Route::resource('pois', PoiController::class);
