@@ -20,8 +20,8 @@ Route::post('/proses-login', [LoginController::class, 'prosesLogin'])->name('pro
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
 // Route::get('/', [PoiController::class, 'index']);
-Route::get('/mobile', [PoiController::class, 'mobile']);
-Route::post('/mobile', [PoiController::class, 'store'])->name('poi.store');
+Route::get('/mobile', [PoiController::class, 'mobile'])->middleware('auth');
+Route::post('/mobile', [PoiController::class, 'store'])->name('poi.store')->middleware('auth');
 
 Route::prefix('/poi')->group(function () {
     Route::get('/', [PoiController::class, 'show'])->middleware('auth');
