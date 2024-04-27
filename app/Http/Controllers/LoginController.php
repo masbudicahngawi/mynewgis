@@ -23,7 +23,7 @@ class LoginController extends Controller
         if (Auth::attempt($data)) {
             $rekues->session()->regenerate();
 
-            return redirect('/poi');
+            return redirect('/poi/show');
         }
 
         return redirect('/');
