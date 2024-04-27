@@ -10,9 +10,9 @@
 
     <title>Login</title>
 
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/assets/login_assets/style.css">
-    <link rel="stylesheet" href=" https://use.fontawesome.com/releases/v5.8.1/css/all.css ">
+    <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/login_assets/style.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 
 </head>
 
@@ -41,8 +41,6 @@
             </form>
         </div>
     </div>
-
-
 
 </body>
 
