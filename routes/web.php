@@ -19,17 +19,13 @@ Route::get('/', [LoginController::class, 'index'])->name('login')->middleware('g
 Route::post('/proses-login', [LoginController::class, 'prosesLogin'])->name('proses-login');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 
-// Route::get('/', [PoiController::class, 'index']);
 Route::get('/mobile', [PoiController::class, 'mobile'])->middleware('auth');
 Route::post('/mobile', [PoiController::class, 'store'])->name('poi.store')->middleware('auth');
 
-Route::prefix('/poi')->group(function () {
-    Route::get('/', [PoiController::class, 'show'])->middleware('auth');
-    Route::get('/show', [PoiController::class, 'show'])->middleware('auth');
-    Route::get('/tambah', [PoiController::class, 'tambah'])->middleware('auth');
-    Route::get('/polyline', [PoiController::class, 'polyline'])->middleware('auth');
-    Route::get('/polyline/{id}', [PoiController::class, 'polyline_detail'])->name('polyline.detail')->middleware('auth');
-});
+Route::get('/poi', [PoiController::class, 'show'])->middleware('auth');
+Route::get('/poi/show', [PoiController::class, 'show'])->middleware('auth');
+Route::get('/poi/tambah', [PoiController::class, 'tambah'])->middleware('auth');
+Route::get('/poi/polyline', [PoiController::class, 'polyline'])->middleware('auth');
+Route::get('/poi/polyline/{id}', [PoiController::class, 'polyline_detail'])->name('polyline.detail')->middleware('auth');
 
 Route::get('/multilayer', [PoiController::class, 'multilayer'])->middleware('auth');;
-// Route::resource('pois', PoiController::class);

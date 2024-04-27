@@ -11,7 +11,7 @@
     <title>Login</title>
 
     <link rel="stylesheet" href="{{ asset('/assets/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/assets/login_assets/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('/assets/css/aset_login/style.css') }}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
 
 </head>
