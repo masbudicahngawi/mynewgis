@@ -22,7 +22,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middl
 Route::get('/mobile', [PoiController::class, 'mobile'])->middleware('auth');
 Route::post('/mobile', [PoiController::class, 'store'])->name('poi.store')->middleware('auth');
 
-Route::get('/poi', [PoiController::class, 'show'])->middleware('auth');
+Route::redirect('/poi', '/poi/show')->middleware('auth');
 Route::get('/poi/show', [PoiController::class, 'show'])->middleware('auth');
 Route::get('/poi/tambah', [PoiController::class, 'tambah'])->middleware('auth');
 Route::get('/poi/polyline', [PoiController::class, 'polyline'])->middleware('auth');
