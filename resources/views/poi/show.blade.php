@@ -78,7 +78,9 @@
                     "nama": data_db[i].nama,
                     "deskripsi": data_db[i].deskripsi,
                     "jenis": "marker",
-                    "kode": data_db[i].jenis_id
+                    "kode": data_db[i].jenis_id,
+                    "gambar": data_db[i].image,
+                    "id": data_db[i].id
                 });
             } else if (data_db[i].objek == "polygon") {
                 arr.push({
@@ -91,27 +93,41 @@
             }
         }
 
-
-
         for (item in arr) {
-            var nama = arr[item].nama;
-            var deskripsinya = (arr[item].deskripsi == null) ? "No Data" : arr[item].deskripsi;
+            let nama = arr[item].nama;
+            let deskripsinya = ((arr[item].deskripsi == null) || (arr[item].deskripsi == '')) ? "No Description" : arr[item]
+                .deskripsi;
+
+            let id = arr[item].id;
 
             if (arr[item].jenis == "marker") {
-                var lokasi = arr[item].lokasi;
-                var kode = arr[item].kode;
-                var obyek = new L.Marker(new L.latLng(lokasi), {
+                let lokasi = arr[item].lokasi;
+                let kode = arr[item].kode;
+                let gambarnya = arr[item].gambar;
+
+                let info_popup = (gambarnya == "foto.png" || gambarnya == "") ?
+                    `<div class="card rounded-0" style="width: 15rem;">
+                    <div class="card-body">
+                    <h5 class="card-title">${nama}</h5>
+                    <img src="/images/${gambarnya}" alt="Foto" width="200" height="100"> 
+                    <p class="card-text">${deskripsinya}</p>
+                    <a href="/poi/upload-foto/${id}" target="_blank">Add Photo</a>
+                    </div>
+                    </div>` :
+                    `<div class="card rounded-0" style="width: 15rem;">
+                    <div class="card-body">
+                    <h5 class="card-title">${nama}</h5>
+                    <img src="/images/${gambarnya}" alt="Foto" width="200" height="100"> 
+                    <p class="card-text">${deskripsinya}</p>
+                    </div>
+                    </div>`;
+
+                let obyek = new L.Marker(new L.latLng(lokasi), {
                     icon: new LeafIcon({
                         iconUrl: list_icon[kode]
                     }),
                     title: nama
-                }).bindPopup(
-                    `<div class="card rounded-0" style="width: 15rem;">
-            <div class="card-body">
-            <h5 class="card-title">${nama}</h5>
-            <p class="card-text">${deskripsinya}</p>
-            </div>
-            </div>`);
+                }).bindPopup(info_popup);
 
                 klaster.addLayer(obyek);
 
@@ -120,11 +136,11 @@
                 var obyek = new L.Polygon(lokasi, {
                     title: nama
                 }).bindPopup(`<div class="card rounded-0" style="width: 15rem;">
-            <div class="card-body">
-            <h5 class="card-title">${nama}</h5>
-            <p class="card-text">${deskripsinya}</p>
-            </div>
-            </div>`);
+                <div class="card-body">
+                <h5 class="card-title">${nama}</h5>
+                <p class="card-text">${deskripsinya}</p>
+                </div>
+                </div>`);
 
                 klaster.addLayer(obyek);
 

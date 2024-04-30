@@ -27,5 +27,7 @@ Route::get('/poi/show', [PoiController::class, 'show'])->middleware('auth');
 Route::get('/poi/tambah', [PoiController::class, 'tambah'])->middleware('auth');
 Route::get('/poi/polyline', [PoiController::class, 'polyline'])->middleware('auth');
 Route::get('/poi/polyline/{id}', [PoiController::class, 'polyline_detail'])->name('polyline.detail')->middleware('auth');
+Route::get('/poi/upload-foto/{id}', [PoiController::class, 'form_upload_foto']);
+Route::post('/poi/proses-upload-foto', [PoiController::class, 'proses_upload_foto'])->name('image.store');
 
-Route::get('/multilayer', [PoiController::class, 'multilayer'])->middleware('auth');;
+Route::get('/multilayer', [PoiController::class, 'multilayer'])->middleware('auth');

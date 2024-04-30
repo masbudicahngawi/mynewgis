@@ -13,9 +13,39 @@ class PoiController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    // public function index()
+    // {
+    //     return view('home');
+    // }
+
+    public function form_upload_foto(Poi $poi, $id){
+        $qry = Poi::where('id', $id)->get();
+
+        return view('poi.upload_foto', ['data' => $qry[0]]);
+    }
+
+    public function proses_upload_foto(Poi $poi, Request $req)
     {
-        return view('home');
+        $req->validate([
+            'image' => 'required|image|mimes:png,jpg,jpeg,svg|max:2048',
+        ]);
+
+        $imageName = time() . '.' . $req->image->extension();
+
+        $req->image->move(public_path('images'), $imageName);
+
+        /* 
+            Write Code Here for
+            Store $imageName name in DATABASE from HERE 
+
+            */
+        if($req->deskripsi){
+            $poi::where('id', $req->id_marker)->update(array('image' => $imageName, 'deskripsi' => $req->deskripsi));
+        }else{
+            $poi::where('id', $req->id_marker)->update(array('image' => $imageName));
+        }
+
+        return back()->with('success', 'You have successfully uploaded an image.')->with('image', $imageName);
     }
 
 
@@ -24,7 +54,6 @@ class PoiController extends Controller
      */
     public function create()
     {
-
     }
 
     /**
@@ -32,7 +61,7 @@ class PoiController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->mode == "mobile"){
+        if ($request->mode == "mobile") {
 
             // Dari menu Mobile
             $validator = Validator::make($request->all(), [
@@ -63,8 +92,7 @@ class PoiController extends Controller
                 'success' => true,
                 'message' => 'Data Berhasil Disimpan!',
             ]);
-
-        }else if($request->mode == "marker"){
+        } else if ($request->mode == "marker") {
             // Dari menu Marker
             $validator = Validator::make($request->all(), [
                 'nama' => 'required',
@@ -106,7 +134,7 @@ class PoiController extends Controller
         $data = Poi::where('objek', '=', 'marker')->orWhere('objek', '=', 'polygon')->get();
         // var_dump($data);
 
-        return view('poi.show', ['data'=>$data]);
+        return view('poi.show', ['data' => $data]);
     }
 
     /**
@@ -133,30 +161,35 @@ class PoiController extends Controller
         //
     }
 
-    public function polyline(){
-        $qry = Poi::where('objek','=', 'polyline')->paginate(10);;
+    public function polyline()
+    {
+        $qry = Poi::where('objek', '=', 'polyline')->paginate(10);;
 
         return view('poi.form_polyline', ['data' => $qry]);
     }
 
-    public function polyline_detail(Poi $poi, $id){
+    public function polyline_detail(Poi $poi, $id)
+    {
         $qry = Poi::where('id', $id)->get();
         // dump($qry);
         return view('poi.detail_polyline', ['data' => $qry[0]]);
     }
 
-    public function mobile(){
+    public function mobile()
+    {
         return view('mobile.index');
     }
 
-    public function tambah(){
+    public function tambah()
+    {
         $data_marker = Poi::where('objek', '=', 'marker')->get();
         $jenis = JenisPoi::all();
 
-        return view('poi.tambah', ['jenis' => $jenis, 'titik'=> $data_marker]);
+        return view('poi.tambah', ['jenis' => $jenis, 'titik' => $data_marker]);
     }
 
-    public function multilayer(){
+    public function multilayer()
+    {
         return view('multilayer.index');
     }
 }
